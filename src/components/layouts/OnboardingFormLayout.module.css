@@ -1,0 +1,23 @@
+.form_container {
+  background-color: var(--white-color);
+  box-shadow:
+    0 4px 8px 0 rgba(53, 105, 128, 0.3),
+    0 6px 20px 0 rgba(165, 200, 213, 0.41);
+  margin: auto;
+  max-width: 800px;
+  padding: 40px;
+}
+
+.form_title {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.form_title h1 {
+  font-size: var(--h1-size);
+  font-weight: 700;
+  margin: 20px 0;
+}

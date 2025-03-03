@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica";
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src:
+    a url("../src/fonts/Helvetica-Bold.woff") format("woff2"),
+    url("../src/fonts/Helvetica-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src:
+    url("../src/fonts/Helvetica.woff2") format("woff2"),
+    url("../src/fonts/Helvetica.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src:
+    url("../src/fonts/Helvetica-Light.woff2") format("woff2"),
+    url("../src/fonts/Helvetica-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --body-color: #f4f8fa;
+  --white-color: #fff;
+  --primary-color: #043950;
+  --primary-100: #f5f8fa;
+  --secondary-color: #253342;
+  --secondary-bg: #8cd4dc;
+  --border-color: #035d6a;
+  --danger-color: #e51520;
+  --danger-btn: #c8233399;
+  --h1-size: 32px;
+  --box-shadow: #035d6a;
+}

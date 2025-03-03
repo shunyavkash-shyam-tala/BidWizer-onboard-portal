@@ -1,0 +1,32 @@
+.input_label {
+  color: var(--secondary-color);
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+  & span {
+    color: var(--danger-color);
+  }
+}
+
+.input_box :is(input, select, textarea) {
+  background-color: var(--primary-100);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  color: var(--secondary-color);
+  font-size: 16px;
+  min-height: 44px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.input_box :is(input):focus {
+  box-shadow: 0 0 3px var(--box-shadow);
+  outline: 0;
+}
+
+.inner_input {
+  position: relative;
+  width: 100%;
+}
