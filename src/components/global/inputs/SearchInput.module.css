@@ -30,3 +30,50 @@
   position: relative;
   width: 100%;
 }
+
+.loader {
+  position: absolute;
+  display: none;
+  top: 55%;
+  transform: translateY(-50%);
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading {
+  display: block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.suggestions_box {
+  background: #fff;
+  border: 1px solid #ccc;
+  display: none;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+.open {
+  display: block;
+}
+
+.suggestion_item {
+  cursor: pointer;
+  padding: 10px;
+}
