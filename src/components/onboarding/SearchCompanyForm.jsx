@@ -3,7 +3,7 @@ import OnboardingFormLayout from "../layouts/OnboardingFormLayout";
 import SearchInput from "../global/inputs/SearchInput";
 
 const SearchCompanyForm = () => {
-  const [dealer, setDealer] = useState();
+  const [, setDealer] = useState();
   function onSelect(dealer) {
     setDealer(dealer);
   }

@@ -1,0 +1,10 @@
+.input_box {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 20px;
+  width: 100%;
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 30px;
+  }
+}

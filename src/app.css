@@ -48,3 +48,13 @@
   --h1-size: 32px;
   --box-shadow: #035d6a;
 }
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -1,0 +1,7 @@
+.sub_heading_box {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
