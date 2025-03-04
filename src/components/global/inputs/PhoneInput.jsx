@@ -21,8 +21,8 @@ const PhoneInput = ({ label, name, required = false, disabled = false }) => {
   }, [register, name, required]);
 
   const handleChange = (phone) => {
-    setValue(name, phone, { shouldValidate: true });
-    trigger(name); // Revalidate after change
+    setValue(name, phone);
+    phone.length > 2 && trigger(name);
   };
 
   return (
