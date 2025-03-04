@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./SearchInput.module.css";
 import useApiCall from "../../../hooks/useApiCall";
+import apis from "../../../constants/apiCenter";
 
 export default function SearchInput({ onSelect }) {
   const [query, setQuery] = useState("");
@@ -11,8 +12,7 @@ export default function SearchInput({ onSelect }) {
     const delayDebounceFn = setTimeout(() => {
       if (query) {
         apiCall({
-          method: "GET",
-          url: "/v1/hubspot/dealer/list/pending",
+          ...apis.dealer.dealerSearch,
           query: { companyName: query },
         });
       }
