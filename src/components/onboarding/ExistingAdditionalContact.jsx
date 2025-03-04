@@ -38,11 +38,13 @@ export default function ExistingAdditionalContact({ index }) {
           label="User: Email"
           {...register(`additional_users[${index}].email`)}
           required
+          disabled
         />
         <PhoneInput
           label="User: Phone"
           {...register(`additional_users[${index}].phone`)}
           required
+          disabled
         />
       </InputRow>
       <InputRow>
@@ -50,17 +52,20 @@ export default function ExistingAdditionalContact({ index }) {
           label="User: First Name"
           {...register(`additional_users[${index}].first_name`)}
           required
+          disabled
         />
         <TextInput
           label="User: Last Name"
           {...register(`additional_users[${index}].last_name`)}
           required
+          disabled
         />
       </InputRow>
       <SelectInput
         name={`additional_users[${index}].role`}
         label="User: Job Role"
         required
+        disabled
         options={userTypeOptions}
       />
     </div>
