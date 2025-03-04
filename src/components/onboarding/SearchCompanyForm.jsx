@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import OnboardingFormLayout from "../layouts/OnboardingFormLayout";
 import SearchInput from "../global/inputs/SearchInput";
 
-const SearchCompanyForm = () => {
-  const [, setDealer] = useState();
+const SearchCompanyForm = ({ setDealer }) => {
   function onSelect(dealer) {
     setDealer(dealer);
   }

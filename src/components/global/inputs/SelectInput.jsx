@@ -9,6 +9,7 @@ const SelectInput = ({
   defaultValue = "",
   options = [],
   disabled = false,
+  error,
   ...rest
 }) => {
   const {
@@ -39,8 +40,10 @@ const SelectInput = ({
             </option>
           ))}
         </select>
-        {errors[name] && (
-          <span className={style.error_text}>{errors[name]?.message}</span>
+        {(errors[name] || error) && (
+          <span className={style.error_text}>
+            {error || errors[name]?.message}
+          </span>
         )}
       </div>
     </div>

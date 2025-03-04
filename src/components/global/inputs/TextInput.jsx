@@ -8,6 +8,7 @@ const TextInput = ({
   type = "text",
   required = false,
   disabled = false,
+  error,
   ...rest
 }) => {
   const {
@@ -27,8 +28,10 @@ const TextInput = ({
           disabled={disabled}
           {...rest}
         />
-        {errors[name] && (
-          <span className={style.error_text}>{errors[name]?.message}</span>
+        {(errors[name] || error) && (
+          <span className={style.error_text}>
+            {error || errors[name]?.message}
+          </span>
         )}
       </div>
     </div>

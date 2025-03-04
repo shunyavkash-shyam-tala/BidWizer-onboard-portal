@@ -5,7 +5,13 @@ import { useFormContext } from "react-hook-form";
 import style from "./PhoneInput.module.css";
 import "./PhoneInput.css";
 
-const PhoneInput = ({ label, name, required = false, disabled = false }) => {
+const PhoneInput = ({
+  label,
+  name,
+  required = false,
+  disabled = false,
+  error,
+}) => {
   const {
     register,
     setValue,
@@ -37,8 +43,10 @@ const PhoneInput = ({ label, name, required = false, disabled = false }) => {
           onChange={handleChange}
           disabled={disabled}
         />
-        {errors[name] && (
-          <span className={style.error_text}>{errors[name]?.message}</span>
+        {(errors[name] || error) && (
+          <span className={style.error_text}>
+            {error || errors[name]?.message}
+          </span>
         )}
       </div>
     </div>
