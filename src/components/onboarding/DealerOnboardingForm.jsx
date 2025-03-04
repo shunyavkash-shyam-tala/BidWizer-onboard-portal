@@ -10,6 +10,7 @@ import FeedProviderInputs from "./FeedProviderInputs";
 import InventoryAuthInputs from "./InventoryAuthInputs";
 import DealerFeesInputs from "./DealerFeesInputs";
 import InventoryDetailsInputs from "./InventoryDetailsInputs";
+import DealFundingInputs from "./DealFundingInputs";
 
 const schema = yup.object().shape({
   name: yup.string().required("Dealership/Company Name is required"),
@@ -128,6 +129,25 @@ const schema = yup.object().shape({
         schema.required("Stock Number Differentiator (Used) is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
+
+  deal_funding_contact_email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  deal_funding_contact_first_name: yup
+    .string()
+    .required("First name is required"),
+  deal_funding_contact_last_name: yup
+    .string()
+    .required("Last name is required"),
+  deal_funding_contact_phone: yup
+    .string()
+    .required("Phone number is required")
+    .test("isValidPhone", "Please enter valid phone number", (value) => {
+      if (!value) return false;
+      const phoneNumber = parsePhoneNumberFromString(value);
+      return phoneNumber ? phoneNumber.isValid() : false;
+    }),
 });
 
 const DealerOnboardingForm = () => {
@@ -148,6 +168,7 @@ const DealerOnboardingForm = () => {
           <InventoryAuthInputs />
           <DealerFeesInputs />
           <InventoryDetailsInputs />
+          <DealFundingInputs />
           <button type="submit">Submit</button>
         </form>
       </FormProvider>
