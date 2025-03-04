@@ -1,14 +1,14 @@
 import React from "react";
 import OnboardingFormLayout from "../layouts/OnboardingFormLayout";
-import TextInput from "../global/inputs/TextInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
-import InputRow from "../global/inputs/InputRow";
-import FormSecondaryHeader from "../global/inputs/formSecondaryHeader";
-import FormSubTitle from "../global/inputs/FormSubTitle";
-import PhoneInput from "../global/inputs/PhoneInput";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import DealerInputs from "./DealerInputs";
+import PrimaryContactInputs from "./PrimaryContactInputs";
+import FeedProviderInputs from "./FeedProviderInputs";
+import InventoryAuthInputs from "./InventoryAuthInputs";
+import DealerFeesInputs from "./DealerFeesInputs";
 
 const schema = yup.object().shape({
   name: yup.string().required("Dealership/Company Name is required"),
@@ -27,12 +27,57 @@ const schema = yup.object().shape({
   lastname: yup.string().required("Last name is required"),
   phone: yup
     .string()
-    .test("isValidPhone", "Please valid phone number", (value) => {
+    .test("isValidPhone", "Please enter valid phone number", (value) => {
       if (!value) return false;
       const phoneNumber = parsePhoneNumberFromString(value);
       return phoneNumber ? phoneNumber.isValid() : false;
     })
     .required("Phone number is required"),
+  inventory_feed_provider_id: yup
+    .string()
+    .required("Inventory feed provider is required"),
+  inventory_feed_provider_email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Inventory feed provider email is required"),
+  inventory_feed_provider_name: yup
+    .string()
+    .required("Inventory feed provider name is required"),
+  inventory_feed_provider: yup
+    .string()
+    .required("Inventory feed provider is required"),
+
+  dealer_inventory_authorizer_email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  dealer_inventory_authorizer_first_name: yup
+    .string()
+    .required("First name is required"),
+  dealer_inventory_authorizer_last_name: yup
+    .string()
+    .required("Last name is required"),
+  dealer_inventory_authorizer_phone: yup
+    .string()
+    .required("Phone number is required")
+    .test("isValidPhone", "Please enter valid phone number", (value) => {
+      if (!value) return false;
+      const phoneNumber = parsePhoneNumberFromString(value);
+      return phoneNumber ? phoneNumber.isValid() : false;
+    }),
+
+  dealer_doc___admin_fees: yup
+    .number()
+    .typeError("Dealer DOC / Admin Fees must be a number")
+    .required("Dealer DOC / Admin Fees is required"),
+  package_fee__if_any_: yup
+    .number("Please enter valid amount")
+    .typeError("Package Fee for New Cars must be a number")
+    .required("Package Fee for New Cars is required"),
+  used_car_package_fee: yup
+    .number("Please enter valid amount")
+    .typeError("Package Fee for Used Cars must be a number")
+    .required("Package Fee for Used Cars is required"),
 });
 
 const DealerOnboardingForm = () => {
@@ -47,36 +92,11 @@ const DealerOnboardingForm = () => {
     <OnboardingFormLayout formTitle={"Dealership Info"}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TextInput label="Group Name" name="group_name" />
-          <TextInput label="Dealership/Company Name" name="name" required />
-          <TextInput label="Website URL" name="website" />
-          <TextInput label="Street Address" name="address" />
-          <InputRow>
-            <TextInput label="City" name="city" required />
-            <TextInput label="State/Region" name="state" required />
-            <TextInput label="Postal Code" name="zip" type="number" required />
-          </InputRow>
-          <TextInput
-            label="Warranty Product"
-            name="warranty_product"
-            type="number"
-          />
-
-          {/* code for primary contact */}
-          <FormSecondaryHeader heading="Primary Contact" action />
-          <FormSubTitle title="User Responsible for Onboarding" />
-          <input name="id" type="hidden" />
-          <TextInput label="email" name="email" type="email" required />
-          <InputRow>
-            <TextInput label="First Name" name="firstname" required />
-            <TextInput label="Last Name" name="lastname" required />
-          </InputRow>
-          <PhoneInput label="Phone Number" name="phone" required />
-
-          {/* Dealer Inventory Feed Information */}
-          <FormSecondaryHeader heading="Dealer Inventory Feed Information" />
-          <FormSubTitle title="Inventory Feed Provider Representative" />
-
+          <DealerInputs />
+          <PrimaryContactInputs />
+          <FeedProviderInputs />
+          <InventoryAuthInputs />
+          <DealerFeesInputs />
           <button type="submit">Submit</button>
         </form>
       </FormProvider>
