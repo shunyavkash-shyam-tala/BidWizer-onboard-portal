@@ -14,11 +14,7 @@ export default function DealerInputs() {
         <TextInput label="State/Region" name="state" required />
         <TextInput label="Postal Code" name="zip" type="number" required />
       </InputRow>
-      <TextInput
-        label="Warranty Product"
-        name="warranty_product"
-        type="number"
-      />
+      <TextInput label="Warranty Product" name="warranty_product" type="text" />
     </>
   );
 }

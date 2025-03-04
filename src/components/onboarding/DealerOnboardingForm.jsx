@@ -9,6 +9,7 @@ import PrimaryContactInputs from "./PrimaryContactInputs";
 import FeedProviderInputs from "./FeedProviderInputs";
 import InventoryAuthInputs from "./InventoryAuthInputs";
 import DealerFeesInputs from "./DealerFeesInputs";
+import InventoryDetailsInputs from "./InventoryDetailsInputs";
 
 const schema = yup.object().shape({
   name: yup.string().required("Dealership/Company Name is required"),
@@ -78,6 +79,55 @@ const schema = yup.object().shape({
     .number("Please enter valid amount")
     .typeError("Package Fee for Used Cars must be a number")
     .required("Package Fee for Used Cars is required"),
+
+  is_the_inventory_combined_with_another_store_: yup
+    .string()
+    .required("This field is required"),
+
+  inventory_ok_to_stay_combined_: yup
+    .string()
+    .when("is_the_inventory_combined_with_another_store_", {
+      is: "Yes",
+      then: (schema) =>
+        schema.required("This field is required when inventory is combined"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+  separate_new_inventory_: yup.string().when("inventory_ok_to_stay_combined_", {
+    is: "No",
+    then: (schema) =>
+      schema.required(
+        "This field is required when inventory cannot stay combined"
+      ),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+
+  separate_used_inventory_: yup
+    .string()
+    .when("inventory_ok_to_stay_combined_", {
+      is: "No",
+      then: (schema) =>
+        schema.required(
+          "This field is required when inventory cannot stay combined"
+        ),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+  stock_number_differentiator: yup.string().when("separate_new_inventory_", {
+    is: "No",
+    then: (schema) =>
+      schema.required("Stock Number Differentiator (New) is required"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+
+  stock_number_differentiator__used_: yup
+    .string()
+    .when("separate_used_inventory_", {
+      is: "No",
+      then: (schema) =>
+        schema.required("Stock Number Differentiator (Used) is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
 });
 
 const DealerOnboardingForm = () => {
@@ -97,6 +147,7 @@ const DealerOnboardingForm = () => {
           <FeedProviderInputs />
           <InventoryAuthInputs />
           <DealerFeesInputs />
+          <InventoryDetailsInputs />
           <button type="submit">Submit</button>
         </form>
       </FormProvider>
