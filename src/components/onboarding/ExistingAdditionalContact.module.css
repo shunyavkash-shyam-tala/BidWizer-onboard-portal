@@ -1,0 +1,24 @@
+.additional_contact_input {
+  border: 1px solid #8cd4dc;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.remove_existing_contact_btn {
+  background-color: #8cd4dc;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  height: 20px;
+  padding: 4px;
+  place-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+  width: 20px;
+}

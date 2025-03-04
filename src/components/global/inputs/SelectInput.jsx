@@ -8,7 +8,8 @@ const SelectInput = ({
   required = false,
   defaultValue = "",
   options = [],
-  props,
+  disabled = false,
+  ...rest
 }) => {
   const {
     register,
@@ -24,8 +25,9 @@ const SelectInput = ({
         <select
           id={name}
           {...register(name)}
-          {...props}
+          disabled={disabled}
           defaultValue={defaultValue}
+          {...rest}
         >
           {options.map((option, index) => (
             <option

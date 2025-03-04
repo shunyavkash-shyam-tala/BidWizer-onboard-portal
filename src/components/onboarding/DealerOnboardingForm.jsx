@@ -11,6 +11,7 @@ import InventoryAuthInputs from "./InventoryAuthInputs";
 import DealerFeesInputs from "./DealerFeesInputs";
 import InventoryDetailsInputs from "./InventoryDetailsInputs";
 import DealFundingInputs from "./DealFundingInputs";
+import AdditionalContactContainer from "./AdditionalContactContainer";
 
 const schema = yup.object().shape({
   name: yup.string().required("Dealership/Company Name is required"),
@@ -169,6 +170,7 @@ const DealerOnboardingForm = () => {
           <DealerFeesInputs />
           <InventoryDetailsInputs />
           <DealFundingInputs />
+          <AdditionalContactContainer />
           <button type="submit">Submit</button>
         </form>
       </FormProvider>

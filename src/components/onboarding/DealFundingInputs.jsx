@@ -9,7 +9,7 @@ export default function DealFundingInputs() {
     <>
       <FormSecondaryHeader heading="Deal Funding Contact" />
       <TextInput
-        label="email"
+        label="Email"
         name="deal_funding_contact_email"
         type="email"
         required
