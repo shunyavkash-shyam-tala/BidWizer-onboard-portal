@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { PhoneInput as PhoneInputField } from "react-international-phone";
 import "react-international-phone/style.css";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import style from "./PhoneInput.module.css";
 import "./PhoneInput.css";
 
@@ -13,23 +12,9 @@ const PhoneInput = ({
   error,
 }) => {
   const {
-    register,
-    setValue,
-    trigger,
-    watch,
+    control,
     formState: { errors },
   } = useFormContext();
-
-  const phone = watch(name) || ""; // Sync with react-hook-form state
-
-  useEffect(() => {
-    register(name, { required: required ? "Phone number is required" : false });
-  }, [register, name, required]);
-
-  const handleChange = (phone) => {
-    setValue(name, phone);
-    phone.length > 2 && trigger(name);
-  };
 
   return (
     <div className={style.input_box}>
@@ -37,11 +22,19 @@ const PhoneInput = ({
         <label className={style.input_label} htmlFor={name}>
           {label} {required && <span>*</span>}
         </label>
-        <PhoneInputField
-          defaultCountry="us"
-          value={phone}
-          onChange={handleChange}
-          disabled={disabled}
+        <Controller
+          name={name}
+          control={control}
+          rules={{ required: required ? "Phone number is required" : false }}
+          render={({ field }) => (
+            <PhoneInputField
+              {...field}
+              defaultCountry="us"
+              disabled={disabled}
+              value={field.value || ""}
+              onChange={(phone) => field.onChange(phone)}
+            />
+          )}
         />
         {(errors[name] || error) && (
           <span className={style.error_text}>
