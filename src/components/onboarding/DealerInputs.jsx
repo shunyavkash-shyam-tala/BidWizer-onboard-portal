@@ -1,8 +1,11 @@
 import React from "react";
 import TextInput from "../global/inputs/TextInput";
 import InputRow from "../global/inputs/InputRow";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function DealerInputs() {
+export default function DealerInputs({ defaultFormValues }) {
+  useSetFormDefaults(defaultFormValues);
+
   return (
     <>
       <TextInput label="Group Name" name="group_name" />

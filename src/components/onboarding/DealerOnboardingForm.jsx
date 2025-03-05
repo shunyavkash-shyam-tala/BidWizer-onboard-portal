@@ -12,8 +12,35 @@ import DealFundingInputs from "./DealFundingInputs";
 import AdditionalContactContainer from "./AdditionalContactContainer";
 import PrimaryButton from "../global/buttons/PrimaryButton";
 import { onboardingSchema } from "../../validators/onBoarding.schema";
+import getContactsByTypeId from "../../utils/getContactsByTypeId";
+import associationInfo from "../../constants/associatationInfo";
 
 const DealerOnboardingForm = ({ selectedDealer }) => {
+  const dealer = selectedDealer?.properties;
+  const dealerInputsDefaultValue = {
+    group_name: dealer?.group_name,
+    name: dealer?.name,
+    website: dealer?.domain,
+    address: dealer?.address,
+    city: dealer?.city,
+    state: dealer?.state,
+    zip: dealer?.zip,
+    warranty_product: dealer?.warranty_product,
+  };
+  const associatedContact = selectedDealer?.associatedContacts;
+  const primaryContact = getContactsByTypeId({
+    contacts: associatedContact,
+    typeId: associationInfo.primary.id,
+  })[0];
+
+  const defaultPrimaryContact = {
+    id: primaryContact?.contactId,
+    firstname: primaryContact?.properties?.firstname,
+    lastname: primaryContact?.properties?.lastname,
+    phone: primaryContact?.properties?.phone,
+    email: primaryContact?.properties?.email,
+  };
+
   const methods = useForm({
     resolver: yupResolver(onboardingSchema),
   });
@@ -25,8 +52,8 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     <OnboardingFormLayout formTitle={"Dealership Info"}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <DealerInputs />
-          <PrimaryContactInputs />
+          <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
+          <PrimaryContactInputs defaultFormValues={defaultPrimaryContact} />
           <FeedProviderInputs />
           <InventoryAuthInputs />
           <DealerFeesInputs />
