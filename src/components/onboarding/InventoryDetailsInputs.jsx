@@ -4,15 +4,27 @@ import SelectInput from "../global/inputs/SelectInput";
 import CheckboxInput from "../global/inputs/CheckboxInput";
 import TextAreaInput from "../global/inputs/TextAreaInput";
 import { useFormContext } from "react-hook-form";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function InventoryDetailsInputs() {
+export default function InventoryDetailsInputs({ defaultFormValues }) {
+  useSetFormDefaults(defaultFormValues);
   const { watch, setValue } = useFormContext();
   const isInventoryCombined = watch(
-    "is_the_inventory_combined_with_another_store_"
+    "is_the_inventory_combined_with_another_store_",
+    defaultFormValues?.is_the_inventory_combined_with_another_store_
   );
-  const inventoryStayCombined = watch("inventory_ok_to_stay_combined_");
-  const separateNewInventory = watch("separate_new_inventory_");
-  const separateUsedInventory = watch("separate_used_inventory_");
+  const inventoryStayCombined = watch(
+    "inventory_ok_to_stay_combined_",
+    defaultFormValues?.inventory_ok_to_stay_combined_
+  );
+  const separateNewInventory = watch(
+    "separate_new_inventory_",
+    defaultFormValues?.separate_new_inventory_
+  );
+  const separateUsedInventory = watch(
+    "separate_used_inventory_",
+    defaultFormValues?.separate_used_inventory_
+  );
 
   useEffect(() => {
     if (isInventoryCombined === "No") {
@@ -29,11 +41,11 @@ export default function InventoryDetailsInputs() {
       setValue("stock_number_differentiator__used_", undefined);
     }
 
-    if (separateNewInventory === "Yes") {
+    if (separateNewInventory === "No") {
       setValue("stock_number_differentiator", undefined);
     }
 
-    if (separateUsedInventory === "Yes") {
+    if (separateUsedInventory === "No") {
       setValue("stock_number_differentiator__used_", undefined);
     }
   }, [
@@ -68,7 +80,7 @@ export default function InventoryDetailsInputs() {
         required
         options={inventoryCombinedOptions}
       />
-      {isInventoryCombined === "Yes" && (
+      {isInventoryCombined === "Yes - No Adjustments Needed" && (
         <SelectInput
           name="inventory_ok_to_stay_combined_"
           label="Can Inventory Stay Combined"
@@ -81,10 +93,10 @@ export default function InventoryDetailsInputs() {
           name="separate_new_inventory_"
           label="Separate New Inventory?"
           required
-          options={stayCombinedOptions}
+          options={inventoryCombinedOptions}
         />
       )}
-      {separateNewInventory === "No" && (
+      {separateNewInventory === "Yes" && (
         <TextAreaInput
           name="stock_number_differentiator"
           label="Stock Number Differentiator (New)"
@@ -97,10 +109,10 @@ export default function InventoryDetailsInputs() {
           name="separate_used_inventory_"
           label="Separate Used Inventory?"
           required
-          options={stayCombinedOptions}
+          options={inventoryCombinedOptions}
         />
       )}
-      {separateUsedInventory === "No" && (
+      {separateUsedInventory === "Yes" && (
         <TextAreaInput
           name="stock_number_differentiator__used_"
           label="Stock Number Differentiator (Used)"

@@ -3,8 +3,10 @@ import FormSecondaryHeader from "../global/inputs/FormSecondaryHeader";
 import TextInput from "../global/inputs/TextInput";
 import PhoneInput from "../global/inputs/PhoneInput";
 import InputRow from "../global/inputs/InputRow";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function DealFundingInputs() {
+export default function DealFundingInputs({ defaultFormValues }) {
+  useSetFormDefaults(defaultFormValues);
   return (
     <>
       <FormSecondaryHeader heading="Deal Funding Contact" />

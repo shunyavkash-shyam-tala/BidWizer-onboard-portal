@@ -68,6 +68,26 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     used_car_package_fee: dealer?.used_car_package_fee,
   };
 
+  const inventoryDetailsInputsValues = {
+    is_the_inventory_combined_with_another_store_:
+      dealer?.is_the_inventory_combined_with_another_store_,
+    inventory_ok_to_stay_combined_: dealer?.inventory_ok_to_stay_combined_,
+    separate_new_inventory_: dealer?.separate_new_inventory_,
+    stock_number_differentiator: dealer?.stock_number_differentiator,
+    separate_used_inventory_: dealer?.separate_used_inventory_,
+    stock_number_differentiator__used_:
+      dealer?.stock_number_differentiator__used_,
+    include_in_transit_new_vehicles:
+      dealer?.include_in_transit_new_vehicles === "true" ? true : false,
+  };
+
+  const dealFundingInputsValues = {
+    deal_funding_contact_email: dealer?.deal_funding_contact_email,
+    deal_funding_contact_first_name: dealer?.deal_funding_contact_first_name,
+    deal_funding_contact_last_name: dealer?.deal_funding_contact_last_name,
+    deal_funding_contact_phone: dealer?.deal_funding_contact_phone,
+  };
+
   const methods = useForm({
     resolver: yupResolver(onboardingSchema),
   });
@@ -86,8 +106,10 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
             defaultFormValues={inventoryAuthInputsDefaultValues}
           />
           <DealerFeesInputs defaultFormValues={dealerFees} />
-          <InventoryDetailsInputs />
-          <DealFundingInputs />
+          <InventoryDetailsInputs
+            defaultFormValues={inventoryDetailsInputsValues}
+          />
+          <DealFundingInputs defaultFormValues={dealFundingInputsValues} />
           <AdditionalContactContainer />
           <PrimaryButton
             style={{ display: "block", marginLeft: "auto", marginTop: "15px" }}
