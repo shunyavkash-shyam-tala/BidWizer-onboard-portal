@@ -104,7 +104,7 @@ export const onboardingSchema = yup.object().shape({
     }),
 
   stock_number_differentiator: yup.string().when("separate_new_inventory_", {
-    is: "No",
+    is: "Yes",
     then: (schema) =>
       schema.required("Stock Number Differentiator (New) is required"),
     otherwise: (schema) => schema.notRequired(),
@@ -113,7 +113,7 @@ export const onboardingSchema = yup.object().shape({
   stock_number_differentiator__used_: yup
     .string()
     .when("separate_used_inventory_", {
-      is: "No",
+      is: "Yes",
       then: (schema) =>
         schema.required("Stock Number Differentiator (Used) is required"),
       otherwise: (schema) => schema.notRequired(),

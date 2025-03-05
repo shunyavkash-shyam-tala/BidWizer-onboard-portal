@@ -28,25 +28,25 @@ export default function InventoryDetailsInputs({ defaultFormValues }) {
 
   useEffect(() => {
     if (isInventoryCombined === "No") {
-      setValue("inventory_ok_to_stay_combined_", undefined);
-      setValue("separate_new_inventory_", undefined);
-      setValue("stock_number_differentiator", undefined);
-      setValue("separate_used_inventory_", undefined);
-      setValue("stock_number_differentiator__used_", undefined);
+      setValue("inventory_ok_to_stay_combined_", "");
+      setValue("separate_new_inventory_", "");
+      setValue("stock_number_differentiator", "");
+      setValue("separate_used_inventory_", "");
+      setValue("stock_number_differentiator__used_", "");
     }
     if (inventoryStayCombined === "Yes - No Adjustments Needed") {
-      setValue("separate_new_inventory_", undefined);
-      setValue("stock_number_differentiator", undefined);
-      setValue("separate_used_inventory_", undefined);
-      setValue("stock_number_differentiator__used_", undefined);
+      setValue("separate_new_inventory_", "");
+      setValue("stock_number_differentiator", "");
+      setValue("separate_used_inventory_", "");
+      setValue("stock_number_differentiator__used_", "");
     }
 
     if (separateNewInventory === "No") {
-      setValue("stock_number_differentiator", undefined);
+      setValue("stock_number_differentiator", "");
     }
 
     if (separateUsedInventory === "No") {
-      setValue("stock_number_differentiator__used_", undefined);
+      setValue("stock_number_differentiator__used_", "");
     }
   }, [
     isInventoryCombined,
@@ -80,7 +80,7 @@ export default function InventoryDetailsInputs({ defaultFormValues }) {
         required
         options={inventoryCombinedOptions}
       />
-      {isInventoryCombined === "Yes - No Adjustments Needed" && (
+      {isInventoryCombined === "Yes" && (
         <SelectInput
           name="inventory_ok_to_stay_combined_"
           label="Can Inventory Stay Combined"
