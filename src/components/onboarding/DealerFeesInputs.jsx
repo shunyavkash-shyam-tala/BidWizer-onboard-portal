@@ -1,8 +1,10 @@
 import React from "react";
 import TextInput from "../global/inputs/TextInput";
 import FormSubTitle from "../global/inputs/FormSubTitle";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function DealerFeesInputs() {
+export default function DealerFeesInputs({ defaultFormValues }) {
+  useSetFormDefaults(defaultFormValues);
   return (
     <>
       <FormSubTitle title="Dealer Fees" sx={{ marginBlock: "40px" }} />

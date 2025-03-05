@@ -3,8 +3,10 @@ import FormSubTitle from "../global/inputs/FormSubTitle";
 import TextInput from "../global/inputs/TextInput";
 import InputRow from "../global/inputs/InputRow";
 import PhoneInput from "../global/inputs/PhoneInput";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function InventoryAuthInputs() {
+export default function InventoryAuthInputs({ defaultFormValues }) {
+  useSetFormDefaults(defaultFormValues);
   return (
     <>
       <FormSubTitle

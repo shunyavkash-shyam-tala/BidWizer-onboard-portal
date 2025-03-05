@@ -13,7 +13,7 @@ import AdditionalContactContainer from "./AdditionalContactContainer";
 import PrimaryButton from "../global/buttons/PrimaryButton";
 import { onboardingSchema } from "../../validators/onBoarding.schema";
 import getContactsByTypeId from "../../utils/getContactsByTypeId";
-import associationInfo from "../../constants/associatationInfo";
+import associationInfo from "../../constants/associationInfo";
 import feedProvider from "../../constants/feedProvider";
 
 const DealerOnboardingForm = ({ selectedDealer }) => {
@@ -51,6 +51,23 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     inventory_feed_provider_email: dealer?.inventory_feed_provider_email,
   };
 
+  const inventoryAuthInputsDefaultValues = {
+    dealer_inventory_authorizer_email:
+      dealer?.dealer_inventory_authorizer_email,
+    dealer_inventory_authorizer_first_name:
+      dealer?.dealer_inventory_authorizer_first_name,
+    dealer_inventory_authorizer_last_name:
+      dealer?.dealer_inventory_authorizer_last_name,
+    dealer_inventory_authorizer_phone:
+      dealer?.dealer_inventory_authorizer_phone,
+  };
+
+  const dealerFees = {
+    dealer_doc___admin_fees: dealer?.dealer_doc___admin_fees,
+    package_fee__if_any_: dealer?.package_fee__if_any_,
+    used_car_package_fee: dealer?.used_car_package_fee,
+  };
+
   const methods = useForm({
     resolver: yupResolver(onboardingSchema),
   });
@@ -65,8 +82,10 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
           <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
           <PrimaryContactInputs defaultFormValues={defaultPrimaryContact} />
           <FeedProviderInputs defaultFormValues={defaultInventoryFeedContact} />
-          <InventoryAuthInputs />
-          <DealerFeesInputs />
+          <InventoryAuthInputs
+            defaultFormValues={inventoryAuthInputsDefaultValues}
+          />
+          <DealerFeesInputs defaultFormValues={dealerFees} />
           <InventoryDetailsInputs />
           <DealFundingInputs />
           <AdditionalContactContainer />
