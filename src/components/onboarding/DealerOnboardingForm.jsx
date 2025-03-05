@@ -14,6 +14,7 @@ import PrimaryButton from "../global/buttons/PrimaryButton";
 import { onboardingSchema } from "../../validators/onBoarding.schema";
 import getContactsByTypeId from "../../utils/getContactsByTypeId";
 import associationInfo from "../../constants/associatationInfo";
+import feedProvider from "../../constants/feedProvider";
 
 const DealerOnboardingForm = ({ selectedDealer }) => {
   const dealer = selectedDealer?.properties;
@@ -41,6 +42,15 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     email: primaryContact?.properties?.email,
   };
 
+  const defaultInventoryFeedContact = {
+    inventory_feed_provider_id: feedProvider?.filter(
+      ({ provider }) => provider == dealer?.inventory_feed_provider
+    )[0]?.id,
+    inventory_feed_provider: dealer?.inventory_feed_provider,
+    inventory_feed_provider_name: dealer?.inventory_feed_provider_name,
+    inventory_feed_provider_email: dealer?.inventory_feed_provider_email,
+  };
+
   const methods = useForm({
     resolver: yupResolver(onboardingSchema),
   });
@@ -54,7 +64,7 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
           <PrimaryContactInputs defaultFormValues={defaultPrimaryContact} />
-          <FeedProviderInputs />
+          <FeedProviderInputs defaultFormValues={defaultInventoryFeedContact} />
           <InventoryAuthInputs />
           <DealerFeesInputs />
           <InventoryDetailsInputs />
