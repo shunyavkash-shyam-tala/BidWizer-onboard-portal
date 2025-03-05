@@ -4,8 +4,13 @@ import FormSecondaryHeader from "../global/inputs/FormSecondaryHeader";
 import ExistingAdditionalContact from "./ExistingAdditionalContact";
 import AddNewAdditionalUser from "./AddNewAdditionalUser";
 import style from "./AdditionalContactContainer.module.css";
+import getContactsByTypeId from "../../utils/getContactsByTypeId";
+import associationInfo from "../../constants/associationInfo";
 
-export default function AdditionalContactContainer() {
+export default function AdditionalContactContainer({
+  existingContacts,
+  removeAssociation,
+}) {
   const { control, clearErrors } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -20,11 +25,48 @@ export default function AdditionalContactContainer() {
     clearErrors("new_users");
   };
 
+  const administratorContact = existingContacts
+    ? getContactsByTypeId({
+        contacts: existingContacts,
+        typeId: associationInfo.administrator.id,
+        excludeTypeId: associationInfo.primary.id,
+      }).map(function (contact) {
+        return {
+          associationType: associationInfo.administrator.label,
+          ...contact,
+        };
+      })
+    : [];
+
+  const bidderContact = existingContacts
+    ? getContactsByTypeId({
+        contacts: existingContacts,
+        typeId: associationInfo?.bidder?.id,
+      }).map(function (contact) {
+        return {
+          associationType: associationInfo.bidder.label,
+          ...contact,
+        };
+      })
+    : [];
+
+  const additionalUsers = [...bidderContact, ...administratorContact];
+
   return (
     <>
       <FormSecondaryHeader heading="Additional Users" />
-      {[0, 1].map((index) => (
-        <ExistingAdditionalContact key={index} index={index} />
+      {additionalUsers.map((user, index) => (
+        <ExistingAdditionalContact
+          key={index}
+          index={index}
+          userInfo={user}
+          removeAssociation={() => {
+            removeAssociation({
+              associationType: user?.associationType,
+              ...user?.properties,
+            });
+          }}
+        />
       ))}
 
       {fields.map((user, index) => (

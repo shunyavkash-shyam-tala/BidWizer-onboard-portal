@@ -5,9 +5,24 @@ import TextInput from "../global/inputs/TextInput";
 import InputRow from "../global/inputs/InputRow";
 import SelectInput from "../global/inputs/SelectInput";
 import PhoneInput from "../global/inputs/PhoneInput";
+import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 
-export default function ExistingAdditionalContact({ index }) {
+export default function ExistingAdditionalContact({
+  index,
+  userInfo,
+  removeAssociation,
+}) {
   const { register } = useFormContext();
+  const user = userInfo?.properties;
+  const defaultUserValues = {
+    [`additional_users[${index}].email`]: user?.email,
+    [`additional_users[${index}].phone`]: user?.phone,
+    [`additional_users[${index}].first_name`]: user?.firstname,
+    [`additional_users[${index}].last_name`]: user?.lastname,
+    [`additional_users[${index}].role`]: userInfo?.associationType,
+  };
+
+  useSetFormDefaults(defaultUserValues);
 
   const userTypeOptions = [
     { title: "", selected: true },
@@ -16,8 +31,15 @@ export default function ExistingAdditionalContact({ index }) {
   ];
 
   return (
-    <div className={style.additional_contact_input}>
-      <button className={style.remove_existing_contact_btn} type="button">
+    <div className={style.additional_contact_input} id={userInfo?.contactId}>
+      <button
+        className={style.remove_existing_contact_btn}
+        type="button"
+        onClick={() => {
+          removeAssociation();
+          document.getElementById(userInfo?.contactId).remove();
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           x="0px"

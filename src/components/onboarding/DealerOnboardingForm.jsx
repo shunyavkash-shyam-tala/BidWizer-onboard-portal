@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import OnboardingFormLayout from "../layouts/OnboardingFormLayout";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
@@ -92,9 +92,19 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     resolver: yupResolver(onboardingSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-  };
+  const [removeAdditionalUserAssociation, setRemoveAdditionalUserAssociation] =
+    useState([]);
+  function removeAssociation(association) {
+    setRemoveAdditionalUserAssociation((prev) => [...prev, association]);
+  }
+
+  const onSubmit = useCallback(
+    (data) => {
+      console.log("Form Data:", data);
+      console.log(removeAdditionalUserAssociation);
+    },
+    [removeAdditionalUserAssociation]
+  );
   return (
     <OnboardingFormLayout formTitle={"Dealership Info"}>
       <FormProvider {...methods}>
@@ -110,7 +120,10 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
             defaultFormValues={inventoryDetailsInputsValues}
           />
           <DealFundingInputs defaultFormValues={dealFundingInputsValues} />
-          <AdditionalContactContainer />
+          <AdditionalContactContainer
+            existingContacts={selectedDealer?.associatedContacts}
+            removeAssociation={removeAssociation}
+          />
           <PrimaryButton
             style={{ display: "block", marginLeft: "auto", marginTop: "15px" }}
           >
