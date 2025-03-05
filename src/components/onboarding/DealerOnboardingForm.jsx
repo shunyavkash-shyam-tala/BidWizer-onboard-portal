@@ -15,11 +15,19 @@ import { onboardingSchema } from "../../validators/onBoarding.schema";
 import getContactsByTypeId from "../../utils/getContactsByTypeId";
 import associationInfo from "../../constants/associationInfo";
 import feedProvider from "../../constants/feedProvider";
+import { prepareOnboardingPayload } from "../../helpers/onbarding";
+import useApiCall from "../../hooks/useApiCall";
+import apis from "../../constants/apiCenter";
 
 const DealerOnboardingForm = ({ selectedDealer }) => {
+  const { loading, response, apiCall } = useApiCall();
+  console.log(response);
+  const associateCompanyId = selectedDealer?.id;
   const dealer = selectedDealer?.properties;
   const dealerInputsDefaultValue = {
     group_name: dealer?.group_name,
+    dealer_id: dealer?.id,
+    hs_owner_email: dealer?.hs_owner_email,
     name: dealer?.name,
     website: dealer?.domain,
     address: dealer?.address,
@@ -97,20 +105,60 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
   function removeAssociation(association) {
     setRemoveAdditionalUserAssociation((prev) => [...prev, association]);
   }
+  const [removeAssociationContacts, setRemoveAssociationContacts] = useState(
+    []
+  );
+  function removePrimaryAssociationContact() {
+    const contactPayload = [
+      {
+        associationType: "administrator",
+        toObjectId: defaultPrimaryContact?.id,
+        ...defaultPrimaryContact,
+      },
+      {
+        associationType: "primary",
+        toObjectId: defaultPrimaryContact?.id,
+        ...defaultPrimaryContact,
+      },
+    ];
+    setRemoveAssociationContacts(contactPayload);
+  }
+
+  const [currentAdditionalUser, setCurrentAdditionalUser] = useState([]);
 
   const onSubmit = useCallback(
-    (data) => {
+    async (data) => {
       console.log("Form Data:", data);
-      console.log(removeAdditionalUserAssociation);
+      const body = prepareOnboardingPayload({
+        associateCompanyId,
+        ...data,
+        currentAdditionalUser,
+        removeAdditionalUserAssociation,
+        removeAssociationContacts,
+      });
+      let res = await apiCall({
+        ...apis.dealer.onboarding,
+        body,
+      });
+      console.log(res);
     },
-    [removeAdditionalUserAssociation]
+    [
+      apiCall,
+      associateCompanyId,
+      removeAdditionalUserAssociation,
+      removeAssociationContacts,
+      currentAdditionalUser,
+    ]
   );
   return (
     <OnboardingFormLayout formTitle={"Dealership Info"}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
-          <PrimaryContactInputs defaultFormValues={defaultPrimaryContact} />
+          <PrimaryContactInputs
+            defaultFormValues={defaultPrimaryContact}
+            updatePrimaryContact={removePrimaryAssociationContact}
+          />
           <FeedProviderInputs defaultFormValues={defaultInventoryFeedContact} />
           <InventoryAuthInputs
             defaultFormValues={inventoryAuthInputsDefaultValues}
@@ -123,8 +171,10 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
           <AdditionalContactContainer
             existingContacts={selectedDealer?.associatedContacts}
             removeAssociation={removeAssociation}
+            setCurrentAdditionalUser={setCurrentAdditionalUser}
           />
           <PrimaryButton
+            loading={loading}
             style={{ display: "block", marginLeft: "auto", marginTop: "15px" }}
           >
             Submit

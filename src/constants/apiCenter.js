@@ -4,6 +4,10 @@ const apis = {
       method: "GET",
       url: "/v1/hubspot/dealer/list/pending",
     },
+    onboarding: {
+      method: "POST",
+      url: "/v1/hubspot/dealer/onboard",
+    },
   },
 };
 

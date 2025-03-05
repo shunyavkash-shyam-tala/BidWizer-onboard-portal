@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import FormSecondaryHeader from "../global/inputs/FormSecondaryHeader";
 import ExistingAdditionalContact from "./ExistingAdditionalContact";
@@ -10,6 +10,7 @@ import associationInfo from "../../constants/associationInfo";
 export default function AdditionalContactContainer({
   existingContacts,
   removeAssociation,
+  setCurrentAdditionalUser,
 }) {
   const { control, clearErrors } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -25,32 +26,37 @@ export default function AdditionalContactContainer({
     clearErrors("new_users");
   };
 
-  const administratorContact = existingContacts
-    ? getContactsByTypeId({
-        contacts: existingContacts,
-        typeId: associationInfo.administrator.id,
-        excludeTypeId: associationInfo.primary.id,
-      }).map(function (contact) {
-        return {
+  const additionalUsers = useMemo(() => {
+    const adminContacts = existingContacts
+      ? getContactsByTypeId({
+          contacts: existingContacts,
+          typeId: associationInfo.administrator.id,
+          excludeTypeId: associationInfo.primary.id,
+        }).map((contact) => ({
           associationType: associationInfo.administrator.label,
           ...contact,
-        };
-      })
-    : [];
+        }))
+      : [];
 
-  const bidderContact = existingContacts
-    ? getContactsByTypeId({
-        contacts: existingContacts,
-        typeId: associationInfo?.bidder?.id,
-      }).map(function (contact) {
-        return {
+    const bidderContacts = existingContacts
+      ? getContactsByTypeId({
+          contacts: existingContacts,
+          typeId: associationInfo?.bidder?.id,
+        }).map((contact) => ({
           associationType: associationInfo.bidder.label,
           ...contact,
-        };
-      })
-    : [];
+        }))
+      : [];
 
-  const additionalUsers = [...bidderContact, ...administratorContact];
+    return [...bidderContacts, ...adminContacts];
+  }, [existingContacts]);
+
+  useEffect(() => {
+    if (additionalUsers.length) {
+      setCurrentAdditionalUser(additionalUsers);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [additionalUsers]);
 
   return (
     <>

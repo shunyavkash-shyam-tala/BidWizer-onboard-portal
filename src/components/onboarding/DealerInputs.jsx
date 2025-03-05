@@ -8,6 +8,8 @@ export default function DealerInputs({ defaultFormValues }) {
 
   return (
     <>
+      <input type="hidden" name="dealer_id" />
+      <input type="hidden" name="hs_owner_email" />
       <TextInput label="Group Name" name="group_name" />
       <TextInput label="Dealership/Company Name" name="name" required />
       <TextInput label="Website URL" name="website" />
