@@ -3,7 +3,10 @@ import style from "./SearchInput.module.css";
 import useApiCall from "../../../hooks/useApiCall";
 import apis from "../../../constants/apiCenter";
 
-export default function SearchInput({ onSelect }) {
+export default function SearchInput({
+  onSelect,
+  apiEndPoint = "dealerSearch",
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const { loading, response, apiCall } = useApiCall();
@@ -12,14 +15,14 @@ export default function SearchInput({ onSelect }) {
     const delayDebounceFn = setTimeout(() => {
       if (query) {
         apiCall({
-          ...apis.dealer.dealerSearch,
+          ...apis.dealer[apiEndPoint],
           query: { companyName: query },
         });
       }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [query, apiCall]);
+  }, [query, apiCall, apiEndPoint]);
 
   useEffect(() => {
     if (response) {

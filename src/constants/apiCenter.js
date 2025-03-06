@@ -8,6 +8,14 @@ const apis = {
       method: "POST",
       url: "/v1/hubspot/dealer/onboard",
     },
+    onboardedDealerSearch: {
+      method: "GET",
+      url: "/v1/hubspot/dealer/list/onboarded",
+    },
+    dealerUpdate: {
+      method: "POST",
+      url: "/v1/hubspot/dealer/edit/onboard",
+    },
   },
 };
 
