@@ -1,10 +1,13 @@
 import AppRouter from "./router";
 import "./app.css";
+import { ToastProvider } from "./hooks/context/toast/ToastProvider";
 
 function App() {
   return (
     <>
-      <AppRouter></AppRouter>
+      <ToastProvider>
+        <AppRouter></AppRouter>
+      </ToastProvider>
     </>
   );
 }
