@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SearchCompanyForm from "../../../components/onboarding/SearchCompanyForm";
-import DealerOnboardingForm from "../../../components/onboarding/DealerOnboardingForm";
+import SearchCompanyForm from "../../components/onboarding/SearchCompanyForm";
+import DealerOnboardingForm from "../../components/onboarding/DealerOnboardingForm";
 
 function OnboardingPage() {
   const [selectedDealer, setSelectedDealer] = useState();
