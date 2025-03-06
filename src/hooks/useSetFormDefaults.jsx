@@ -3,13 +3,16 @@ import { useFormContext } from "react-hook-form";
 
 export default function useSetFormDefaults(
   defaultValues,
-  setOnInitialRender = true
+  setOnInitialRender = true,
+  externalSetValue
 ) {
-  const { setValue } = useFormContext();
+  const formContext = useFormContext();
+  const setValue = externalSetValue || formContext?.setValue;
+
   const hasRun = useRef(false);
 
   useEffect(() => {
-    if (!defaultValues) return;
+    if (!defaultValues || !setValue) return;
 
     if (setOnInitialRender) {
       if (!hasRun.current) {

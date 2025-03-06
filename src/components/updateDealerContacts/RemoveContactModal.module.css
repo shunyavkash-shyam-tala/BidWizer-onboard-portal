@@ -1,0 +1,55 @@
+.title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.description {
+  color: #555;
+  font-size: 14px;
+}
+
+.email {
+  opacity: 0.8;
+  color: var(--danger-color);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.concent_box {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 350px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel {
+  background: #555;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove {
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
