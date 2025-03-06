@@ -24,6 +24,10 @@ const apis = {
       method: "POST",
       url: "/v1/hubspot/dealer/edit/contact",
     },
+    addNewAssociateContact: {
+      method: "POST",
+      url: "/v1/hubspot/dealer/create/new-contact",
+    },
   },
 };
 

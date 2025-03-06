@@ -4,10 +4,12 @@ import SearchInput from "../../components/global/inputs/SearchInput";
 import ExistingContactFrom from "../../components/updateDealerContacts/ExistingContactFrom";
 import getContactsByTypeId from "../../utils/getContactsByTypeId";
 import associationInfo from "../../constants/associationInfo";
+import AddContactModal from "../../components/updateDealerContacts/AddContactModal";
 
 export default function DealerContactUpdatePage() {
   const [selectedDealer, setSelectedDealer] = useState();
   const [associatedContacts, setAssociatedContacts] = useState([]);
+  const [openAddContactModal, setOpenAddContactModal] = useState(false);
   function setDealer(dealer) {
     const administrators = getContactsByTypeId({
       contacts: dealer.associatedContacts,
@@ -63,6 +65,10 @@ export default function DealerContactUpdatePage() {
     },
     [associatedContacts]
   );
+
+  const addNewContact = (newContact) => {
+    setAssociatedContacts((prev) => [...prev, newContact]);
+  };
   return (
     <>
       {!selectedDealer ? (
@@ -83,6 +89,35 @@ export default function DealerContactUpdatePage() {
               onUpdate={onUpdate}
             />
           ))}
+
+          <hr className="horizontal_rule" />
+          <button
+            type="button"
+            className="text_btn"
+            style={{
+              display: "block",
+              marginLeft: "auto",
+            }}
+            onClick={() => {
+              setOpenAddContactModal(true);
+            }}
+          >
+            <span>Add User</span>
+          </button>
+
+          <AddContactModal
+            isOpen={openAddContactModal}
+            onClose={() => setOpenAddContactModal(false)}
+            companyId={selectedDealer?.id}
+            addNewContactCB={(arg) => {
+              addNewContact(arg);
+              setOpenAddContactModal(false);
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+          />
         </OnboardingFormLayout>
       )}
     </>

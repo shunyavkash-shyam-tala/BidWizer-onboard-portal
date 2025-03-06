@@ -20,6 +20,7 @@ const useApiCall = () => {
           headers: {
             "client-hubspot-api-secret": import.meta.env.VITE_HUBSPOT_SECRET,
             "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
             ...headers,
           },
         };

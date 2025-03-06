@@ -63,3 +63,18 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.text_btn {
+  background-color: transparent;
+  border: none;
+  color: #8cd4dc;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.horizontal_rule {
+  border-top: 1px solid var(--secondary-bg);
+}
