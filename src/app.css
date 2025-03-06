@@ -5,6 +5,10 @@
   font-family: "Helvetica";
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @font-face {
   font-family: "Helvetica";
   src:

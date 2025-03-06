@@ -55,15 +55,15 @@ export default function AddNewAdditionalUser({ index, onRemove }) {
       <InputRow>
         <TextInput
           label="User: First Name"
-          name={`new_users[${index}].first_name`}
+          name={`new_users[${index}].firstname`}
           required
-          error={errors?.new_users?.[index]?.first_name?.message}
+          error={errors?.new_users?.[index]?.firstname?.message}
         />
         <TextInput
           label="User: Last Name"
-          name={`new_users[${index}].last_name`}
+          name={`new_users[${index}].lastname`}
           required
-          error={errors?.new_users?.[index]?.last_name?.message}
+          error={errors?.new_users?.[index]?.lastname?.message}
         />
       </InputRow>
       <SelectInput

@@ -1,0 +1,31 @@
+.alert {
+  display: flex;
+  align-items: flex-start;
+  background-color: #dff5e0;
+  border: 1px solid #d1e7dd;
+  border-radius: 8px;
+  color: #0f5132;
+  margin: 20px auto auto;
+  max-width: 800px;
+  padding: 16px;
+}
+
+.alertIcon {
+  margin-right: 8px;
+}
+
+.alertContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.alertTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.00938em;
+  line-height: 1.5;
+}
+
+.alertDescription {
+  margin-top: 6px;
+}

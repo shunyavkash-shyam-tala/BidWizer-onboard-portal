@@ -33,6 +33,7 @@ export default function AdditionalContactContainer({
           typeId: associationInfo.administrator.id,
           excludeTypeId: associationInfo.primary.id,
         }).map((contact) => ({
+          associations: [associationInfo.administrator],
           associationType: associationInfo.administrator.label,
           ...contact,
         }))
@@ -43,11 +44,11 @@ export default function AdditionalContactContainer({
           contacts: existingContacts,
           typeId: associationInfo?.bidder?.id,
         }).map((contact) => ({
+          associations: [associationInfo.bidder],
           associationType: associationInfo.bidder.label,
           ...contact,
         }))
       : [];
-
     return [...bidderContacts, ...adminContacts];
   }, [existingContacts]);
 

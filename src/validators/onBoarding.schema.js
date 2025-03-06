@@ -151,8 +151,8 @@ export const onboardingSchema = yup.object().shape({
           const phoneNumber = parsePhoneNumberFromString(value);
           return phoneNumber ? phoneNumber.isValid() : false;
         }),
-      first_name: yup.string().required("First name is required"),
-      last_name: yup.string().required("Last name is required"),
+      firstname: yup.string().required("First name is required"),
+      lastname: yup.string().required("Last name is required"),
       role: yup.string().required("Role is required"),
     })
   ),

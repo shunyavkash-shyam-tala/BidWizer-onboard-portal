@@ -49,13 +49,17 @@ function prepareOnboardingPayload(payload) {
         association: ["primary", "administrator"],
         recreate: payload?.id ? false : true,
       },
-      additionalContacts: payload?.additionalContacts?.map((contacts) => ({
+      additionalContacts: payload?.new_users?.map((contacts) => ({
         ...contacts,
         association: contacts?.role,
         recreate: true,
       })),
     },
-    currentAdditionalUser: payload?.currentAdditionalUser ?? [],
+    currentAdditionalUser:
+      payload?.currentAdditionalUser?.map((contact) => ({
+        ...contact,
+        ...contact?.properties,
+      })) ?? [],
     removeAssociationContacts: payload?.removeAssociationContacts ?? [],
     removeAdditionalUserAssociation:
       payload?.removeAdditionalUserAssociation ?? [],

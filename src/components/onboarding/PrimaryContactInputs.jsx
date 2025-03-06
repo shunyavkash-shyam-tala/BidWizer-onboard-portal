@@ -11,7 +11,7 @@ const PrimaryContactInputs = memo(
   ({ defaultFormValues, updatePrimaryContact }) => {
     const { setValue } = useFormContext();
     useSetFormDefaults(defaultFormValues);
-    const [showEditBtn, setShowEditBtn] = useState(true);
+    const [showEditBtn, setShowEditBtn] = useState(defaultFormValues?.id);
     const changePrimaryContact = useCallback(() => {
       setValue("id", "");
       setValue("email", "");

@@ -18,10 +18,10 @@ import feedProvider from "../../constants/feedProvider";
 import { prepareOnboardingPayload } from "../../helpers/onbarding";
 import useApiCall from "../../hooks/useApiCall";
 import apis from "../../constants/apiCenter";
+import FormSubmittedBanner from "./FormSubmittedBanner";
 
 const DealerOnboardingForm = ({ selectedDealer }) => {
   const { loading, response, apiCall } = useApiCall();
-  console.log(response);
   const associateCompanyId = selectedDealer?.id;
   const dealer = selectedDealer?.properties;
   const dealerInputsDefaultValue = {
@@ -128,19 +128,24 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
 
   const onSubmit = useCallback(
     async (data) => {
-      console.log("Form Data:", data);
-      const body = prepareOnboardingPayload({
-        associateCompanyId,
-        ...data,
-        currentAdditionalUser,
-        removeAdditionalUserAssociation,
-        removeAssociationContacts,
-      });
-      let res = await apiCall({
-        ...apis.dealer.onboarding,
-        body,
-      });
-      console.log(res);
+      try {
+        const body = prepareOnboardingPayload({
+          associateCompanyId,
+          ...data,
+          currentAdditionalUser,
+          removeAdditionalUserAssociation,
+          removeAssociationContacts,
+        });
+
+        await apiCall({
+          ...apis.dealer.onboarding,
+          body,
+        });
+
+        return;
+      } catch (error) {
+        console.error(error);
+      }
     },
     [
       apiCall,
@@ -151,37 +156,49 @@ const DealerOnboardingForm = ({ selectedDealer }) => {
     ]
   );
   return (
-    <OnboardingFormLayout formTitle={"Dealership Info"}>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
-          <PrimaryContactInputs
-            defaultFormValues={defaultPrimaryContact}
-            updatePrimaryContact={removePrimaryAssociationContact}
-          />
-          <FeedProviderInputs defaultFormValues={defaultInventoryFeedContact} />
-          <InventoryAuthInputs
-            defaultFormValues={inventoryAuthInputsDefaultValues}
-          />
-          <DealerFeesInputs defaultFormValues={dealerFees} />
-          <InventoryDetailsInputs
-            defaultFormValues={inventoryDetailsInputsValues}
-          />
-          <DealFundingInputs defaultFormValues={dealFundingInputsValues} />
-          <AdditionalContactContainer
-            existingContacts={selectedDealer?.associatedContacts}
-            removeAssociation={removeAssociation}
-            setCurrentAdditionalUser={setCurrentAdditionalUser}
-          />
-          <PrimaryButton
-            loading={loading}
-            style={{ display: "block", marginLeft: "auto", marginTop: "15px" }}
-          >
-            Submit
-          </PrimaryButton>
-        </form>
-      </FormProvider>
-    </OnboardingFormLayout>
+    <>
+      {!response ? (
+        <OnboardingFormLayout formTitle={"Dealership Info"}>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <DealerInputs defaultFormValues={dealerInputsDefaultValue} />
+              <PrimaryContactInputs
+                defaultFormValues={defaultPrimaryContact}
+                updatePrimaryContact={removePrimaryAssociationContact}
+              />
+              <FeedProviderInputs
+                defaultFormValues={defaultInventoryFeedContact}
+              />
+              <InventoryAuthInputs
+                defaultFormValues={inventoryAuthInputsDefaultValues}
+              />
+              <DealerFeesInputs defaultFormValues={dealerFees} />
+              <InventoryDetailsInputs
+                defaultFormValues={inventoryDetailsInputsValues}
+              />
+              <DealFundingInputs defaultFormValues={dealFundingInputsValues} />
+              <AdditionalContactContainer
+                existingContacts={selectedDealer?.associatedContacts}
+                removeAssociation={removeAssociation}
+                setCurrentAdditionalUser={setCurrentAdditionalUser}
+              />
+              <PrimaryButton
+                loading={loading}
+                style={{
+                  display: "block",
+                  marginLeft: "auto",
+                  marginTop: "15px",
+                }}
+              >
+                Submit
+              </PrimaryButton>
+            </form>
+          </FormProvider>
+        </OnboardingFormLayout>
+      ) : (
+        <FormSubmittedBanner />
+      )}
+    </>
   );
 };
 
