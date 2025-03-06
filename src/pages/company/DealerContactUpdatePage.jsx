@@ -8,7 +8,6 @@ import associationInfo from "../../constants/associationInfo";
 export default function DealerContactUpdatePage() {
   const [selectedDealer, setSelectedDealer] = useState();
   const [associatedContacts, setAssociatedContacts] = useState([]);
-
   function setDealer(dealer) {
     const administrators = getContactsByTypeId({
       contacts: dealer.associatedContacts,
@@ -49,6 +48,21 @@ export default function DealerContactUpdatePage() {
     },
     [associatedContacts]
   );
+
+  const onUpdate = useCallback(
+    ({ contactId, updatedPayload } = {}) => {
+      const excludeContact = associatedContacts.map((contact) => {
+        if (contact.contactId == contactId) {
+          return { ...contact, ...updatedPayload };
+        }
+
+        return contact;
+      });
+
+      setAssociatedContacts(excludeContact);
+    },
+    [associatedContacts]
+  );
   return (
     <>
       {!selectedDealer ? (
@@ -66,6 +80,7 @@ export default function DealerContactUpdatePage() {
               userInfo={contact}
               companyId={selectedDealer?.id}
               onRemove={removeAssociatedContact}
+              onUpdate={onUpdate}
             />
           ))}
         </OnboardingFormLayout>

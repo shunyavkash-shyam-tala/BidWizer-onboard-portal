@@ -20,6 +20,10 @@ const apis = {
       method: "POST",
       url: "/v1/hubspot/dealer/remove/association",
     },
+    updateAssociateContact: {
+      method: "POST",
+      url: "/v1/hubspot/dealer/edit/contact",
+    },
   },
 };
 

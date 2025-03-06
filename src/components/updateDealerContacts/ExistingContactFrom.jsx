@@ -8,14 +8,18 @@ import PhoneInput from "../global/inputs/PhoneInput";
 import PrimaryButton from "../global/buttons/PrimaryButton";
 import useSetFormDefaults from "../../hooks/useSetFormDefaults";
 import RemoveContactModal from "./RemoveContactModal";
+import UpdateContactModal from "./updateContactModal";
 export default function ExistingContactFrom({
   companyId,
   userInfo = {},
   onRemove,
+  onUpdate,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateIsModalOpen] = useState(false);
+
   const methods = useForm({});
-  useSetFormDefaults(userInfo, true, methods?.setValue);
+  useSetFormDefaults(userInfo, false, methods?.setValue);
 
   const userTypeOptions = [
     { title: "", selected: true },
@@ -62,7 +66,12 @@ export default function ExistingContactFrom({
           >
             Remove Contact
           </PrimaryButton>
-          <PrimaryButton style={{ boxShadow: "none" }}>
+          <PrimaryButton
+            style={{ boxShadow: "none" }}
+            onClick={() => {
+              setIsUpdateIsModalOpen(true);
+            }}
+          >
             Update Contact
           </PrimaryButton>
         </div>
@@ -76,6 +85,17 @@ export default function ExistingContactFrom({
         onRemoveCb={() => {
           onRemove(userInfo?.contactId);
           setIsModalOpen(false);
+        }}
+      />
+
+      <UpdateContactModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateIsModalOpen(false)}
+        companyId={companyId}
+        userInfo={userInfo}
+        onUpdateCb={(arg) => {
+          setIsUpdateIsModalOpen(false);
+          onUpdate(arg);
         }}
       />
     </>
